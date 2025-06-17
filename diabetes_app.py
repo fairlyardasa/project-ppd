@@ -2,6 +2,24 @@ import streamlit as st
 import pandas as pd
 import joblib
 
+# Inisialisasi state untuk setiap input
+if 'pregnancies' not in st.session_state:
+    st.session_state.pregnancies = 1
+if 'glucose' not in st.session_state:
+    st.session_state.glucose = 100
+if 'blood_pressure' not in st.session_state:
+    st.session_state.blood_pressure = 72
+if 'skin_thickness' not in st.session_state:
+    st.session_state.skin_thickness = 35
+if 'insulin' not in st.session_state:
+    st.session_state.insulin = 125
+if 'bmi' not in st.session_state:
+    st.session_state.bmi = 33.6
+if 'dpf' not in st.session_state:
+    st.session_state.dpf = 0.627
+if 'age' not in st.session_state:
+    st.session_state.age = 50
+
 # Judul aplikasi
 st.title('🩺 Prediksi Risiko Diabetes')
 st.markdown('Aplikasi ini memprediksi risiko diabetes berdasarkan karakteristik medis pasien menggunakan model machine learning.')
@@ -33,16 +51,16 @@ st.markdown('Masukkan data medis pasien:')
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    pregnancies = st.number_input('Kehamilan (Pregnancies)', 0, 20, 1)
-    glucose = st.number_input('Glukosa (mg/dL)', 0, 300, 100)
-    blood_pressure = st.number_input('Tekanan Darah (mmHg)', 0, 200, 72)
-    skin_thickness = st.number_input('Ketebalan Kulit (mm)', 0, 100, 35)
+    pregnancies = st.number_input('Kehamilan (Pregnancies)', 0, 20, st.session_state.pregnancies)
+    glucose = st.number_input('Glukosa (mg/dL)', 0, 300, st.session_state.glucose)
+    blood_pressure = st.number_input('Tekanan Darah (mmHg)', 0, 200, st.session_state.blood_pressure)
+    skin_thickness = st.number_input('Ketebalan Kulit (mm)', 0, 100, st.session_state.skin_thickness)
 
 with col2:
-    insulin = st.number_input('Insulin (μU/mL)', 0, 1000, 125)
-    bmi = st.number_input('BMI (kg/m²)', 10.0, 60.0, 33.6, step=0.1)
-    dpf = st.number_input('Riwayat Diabetes Keluarga', 0.0, 2.0, 0.627, step=0.001)
-    age = st.number_input('Usia', 0, 120, 50)
+    insulin = st.number_input('Insulin (μU/mL)', 0, 1000, st.session_state.insulin)
+    bmi = st.number_input('BMI (kg/m²)', 10.0, 60.0, st.session_state.bmi, step=0.1)
+    dpf = st.number_input('Riwayat Diabetes Keluarga', 0.0, 2.0, st.session_state.dpf, step=0.001)
+    age = st.number_input('Usia', 0, 120, st.session_state.age)
 
 # Hitung fitur rekayasa
 glucose_bmi = (glucose * bmi) / 100
@@ -131,29 +149,32 @@ if st.button('Prediksi Risiko Diabetes', type='primary'):
 st.divider()
 st.subheader('Contoh Data Pasien')
 
-if st.button('Pasien Berisiko Rendah', type='secondary'):
-    st.session_state.pregnancies = 2
-    st.session_state.glucose = 92
-    st.session_state.blood_pressure = 74
-    st.session_state.skin_thickness = 28
-    st.session_state.insulin = 85
-    st.session_state.bmi = 22.1
-    st.session_state.dpf = 0.15
-    st.session_state.age = 28
-    st.rerun()
+col1, col2 = st.columns(2)
+with col1:
+    if st.button('Pasien Berisiko Rendah', type='secondary'):
+        st.session_state.pregnancies = 2
+        st.session_state.glucose = 92
+        st.session_state.blood_pressure = 74
+        st.session_state.skin_thickness = 28
+        st.session_state.insulin = 85
+        st.session_state.bmi = 22.1
+        st.session_state.dpf = 0.15
+        st.session_state.age = 28
+        st.rerun()
 
-if st.button('Pasien Berisiko Tinggi', type='secondary'):
-    st.session_state.pregnancies = 1
-    st.session_state.glucose = 140
-    st.session_state.blood_pressure = 72
-    st.session_state.skin_thickness = 35
-    st.session_state.insulin = 125
-    st.session_state.bmi = 33.6
-    st.session_state.dpf = 0.627
-    st.session_state.age = 50
-    st.rerun()
+with col2:
+    if st.button('Pasien Berisiko Tinggi', type='secondary'):
+        st.session_state.pregnancies = 1
+        st.session_state.glucose = 140
+        st.session_state.blood_pressure = 72
+        st.session_state.skin_thickness = 35
+        st.session_state.insulin = 125
+        st.session_state.bmi = 33.6
+        st.session_state.dpf = 0.627
+        st.session_state.age = 50
+        st.rerun()
 
 # Footer
 st.divider()
 st.caption('© 2023 Sistem Prediksi Diabetes - Model berbasis Random Forest')
-st.caption('Catatan: Prediksi ini tidak menggantikan diagnosis medis profesional. Konsultasikan dengan dokter untuk penilaian lengkap.') 
+st.caption('Catatan: Prediksi ini tidak menggantikan diagnosis medis profesional. Konsultasikan dengan dokter untuk penilaian lengkap.')
