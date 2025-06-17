@@ -39,9 +39,9 @@ OPTIMAL_THRESHOLD = st.slider(
     'Threshold Klasifikasi', 
     min_value=0.1, 
     max_value=0.9, 
-    value=0.45, 
+    value=0.532, 
     step=0.01,
-    help='Nilai ambang batas untuk menentukan prediksi diabetes (default: 0.45)'
+    help='Nilai ambang batas untuk menentukan prediksi diabetes (default: 0.53)'
 )
 
 # Input data pasien
@@ -176,5 +176,5 @@ with col2:
 
 # Footer
 st.divider()
-st.caption('© 2023 Sistem Prediksi Diabetes - Model berbasis Random Forest')
+st.caption('© 2025 Sistem Prediksi Diabetes - Model berbasis Random Forest')
 st.caption('Catatan: Prediksi ini tidak menggantikan diagnosis medis profesional. Konsultasikan dengan dokter untuk penilaian lengkap.')
